@@ -8,12 +8,9 @@
     \D [(inc row) column]
     \L [row (dec column)]))
 
-(defn inbounds? [lock position]
-  (not (nil? (get-in lock position))))
-
 (defn move-inbounds [lock position direction]
   (let [next (move direction position)]
-    (if (inbounds? lock next)
+    (if (get-in lock next)
       next
       position)))
 
@@ -21,9 +18,9 @@
   (reduce (partial move-inbounds lock) position line))
 
 (defn decode [lock {:keys [position code]} line]
-  (let [end-position (travel lock position line)]
-    {:position end-position
-     :code (str code (get-in lock end-position))}))
+  (let [next (travel lock position line)]
+    {:position next
+     :code (str code (get-in lock next))}))
 
 (defn unlock [lock position input]
   (->> input

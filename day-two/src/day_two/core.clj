@@ -17,16 +17,15 @@
       next
       position)))
 
-(defn travel [lock position instructions]
-  (reduce (partial move-inbounds lock) position instructions))
+(defn travel [lock position line]
+  (reduce (partial move-inbounds lock) position line))
 
-(defn unlock [lock initial-position input]
-  (loop [position initial-position
-         [instructions & instructions-left] input
-         code ""]
-    (if (empty? instructions)
-      code
-      (let [next-position (travel lock position instructions)]
-        (recur next-position
-               instructions-left
-               (str code (get-in lock next-position)))))))
+(defn decode [lock {:keys [position code]} line]
+  (let [end-position (travel lock position line)]
+    {:position end-position
+     :code (str code (get-in lock end-position))}))
+
+(defn unlock [lock position input]
+  (->> input
+       (reduce (partial decode lock) {:position position :code ""})
+       (:code)))

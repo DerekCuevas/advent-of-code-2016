@@ -3,10 +3,17 @@
             [day-one.core :refer :all]
             [clojure.string :refer [split]]))
 
+(defn parse-turn [[turn & distance]]
+  [turn (read-string (apply str distance))])
+
+(defn parse [input]
+  (map parse-turn input))
+
 (def input
   (-> "resources/input.txt"
       (slurp)
-      (split #"\n")))
+      (split #", ")
+      (parse)))
 
 (deftest find-block-distance-test
   (testing "find block distance"

@@ -8,9 +8,9 @@
 (defn- distance [[x y]]
   (+ (abs x) (abs y)))
 
-(defn- move [direction steps [px py]]
+(defn- move [direction steps [x y]]
   (let [[sx sy] (directions direction)]
-    [(+ px (* sx steps)) (+ py (* sy steps))]))
+    [(+ x (* sx steps)) (+ y (* sy steps))]))
 
 (defn- next-direction [turn direction]
   (-> (case turn \L -1 \R 1)

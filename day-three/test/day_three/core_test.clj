@@ -14,4 +14,5 @@
 
 (deftest a-test
   (testing "FIXME, I fail."
-    (is (= (count-triangles input) 1032))))
+    (is (= (count-triangles input) 1032))
+    (is (= (count-transposed-triangles input) 1838))))

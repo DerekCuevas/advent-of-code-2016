@@ -3,8 +3,11 @@
             [day-three.core :refer :all]
             [clojure.string :refer [split]]))
 
-(defn parse [lines]
-  (map #(read-string (str "[" % "]")) lines))
+(defn parse-dims [dims]
+  (read-string (str "[" dims "]")))
+
+(defn parse [input]
+  (map parse-dims input))
 
 (def input
   (-> "resources/input.txt"
@@ -12,7 +15,10 @@
       (split #"\n")
       (parse)))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= (count-triangles input) 1032))
-    (is (= (count-transposed-triangles input) 1838))))
+(deftest count-triangles-test
+  (testing "valid triangles"
+    (is (= (count-triangles input) 1032))))
+
+(deftest count-column-triangles-test
+  (testing "count valid column triangles"
+    (is (= (count-column-triangles input) 1838))))

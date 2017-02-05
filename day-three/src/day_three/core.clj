@@ -5,9 +5,12 @@
   (let [[a b c] (sort dims)]
     (> (+ a b) c)))
 
-(defn- transpose [input]
+(defn- transpose [v]
+  (apply mapv vector v))
+
+(defn- column-dims [input]
   (->> input
-       (apply mapv vector)
+       (transpose)
        (flatten)
        (partition 3)))
 
@@ -16,5 +19,5 @@
        (filter triangle?)
        (count)))
 
-(def count-transposed-triangles
-  (comp count-triangles transpose))
+(def count-column-triangles
+  (comp count-triangles column-dims))

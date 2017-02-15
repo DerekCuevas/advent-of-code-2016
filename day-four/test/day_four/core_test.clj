@@ -3,10 +3,22 @@
             [day-four.core :refer :all]
             [clojure.string :refer [split]]))
 
+(def data-format #"(\S+)-(\d+)\[(\S+)\]")
+
+(defn parse-data [s]
+  (let [[_ encrypted-name sector-id checksum] (re-find data-format s)]
+    {:encrypted-name encrypted-name
+     :sector-id (read-string sector-id)
+     :checksum checksum}))
+
+(defn parse [input]
+  (map parse-data input))
+
 (def input
   (-> "resources/input.txt"
       (slurp)
-      (split #"\n")))
+      (split #"\n")
+      (parse)))
 
 (deftest sum-sector-ids-test
   (testing "sum sector ids"
@@ -14,4 +26,4 @@
 
 (deftest find-sector-id-test
   (testing "find sector id"
-    (is (= (find-sector-id input) 548))))
+    (is (= (find-sector-id "northpole object storage" input) 548))))

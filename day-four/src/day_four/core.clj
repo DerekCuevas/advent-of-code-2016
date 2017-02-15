@@ -2,14 +2,6 @@
   (:require [clojure.string :refer [split join replace]])
   (:gen-class))
 
-(def ^:private encrypted-format #"(\S+)-(\d+)\[(\S+)\]")
-
-(defn- parse [s]
-  (let [[_ encrypted-name sector-id checksum] (re-find encrypted-format s)]
-    {:encrypted-name encrypted-name
-     :sector-id (read-string sector-id)
-     :checksum checksum}))
-
 (defn- compare-frequencies [[k1 v1] [k2 v2]]
   (if (= v1 v2)
     (compare k1 k2)
@@ -23,11 +15,6 @@
        (take 5)
        (apply str)
        (= checksum)))
-
-(defn- filter-decoy [input]
-  (->> input
-       (map parse)
-       (filter valid-checksum?)))
 
 (defn- rotate [n c]
   (-> (int c)
@@ -49,15 +36,15 @@
 ;; part one
 (defn sum-sector-ids [input]
   (->> input
-       (filter-decoy)
+       (filter valid-checksum?)
        (map :sector-id)
        (apply +)))
 
 ;; part two
-(defn find-sector-id [input]
+(defn find-sector-id [name input]
   (->> input
-       (filter-decoy)
+       (filter valid-checksum?)
        (map decrypt-name)
-       (filter #(= (:name %) "northpole object storage"))
+       (filter #(= (:name %) name))
        (first)
        (:sector-id)))

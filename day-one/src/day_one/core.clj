@@ -25,5 +25,5 @@
 (defn- travel [path]
   (reduce turn {:position [0 0] :direction 0} path))
 
-(defn find-block-distance [input]
-  (-> input (comp travel :position distance)))
+(def find-block-distance
+  (comp distance :position travel))

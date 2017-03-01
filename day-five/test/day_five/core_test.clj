@@ -4,4 +4,4 @@
 
 (deftest password-test
   (testing "find password"
-    (is (= (password "reyedfim") 1))))
+    (is (= (generate-password "reyedfim") "f97c354d"))))

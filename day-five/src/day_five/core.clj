@@ -3,17 +3,21 @@
             [digest :refer [md5]])
   (:gen-class))
 
-(defn- starts-with-n-zeros? [n s]
-  (starts-with? s (apply str (repeat n "0"))))
+(defn- starts-with-five-zeros? [s]
+  (->> (repeat 5 "0")
+       (apply str)
+       (starts-with? s)))
 
-(defn generate-password [key]
-  (loop [password ""
-         index 0]
-    (let [hash (md5 (str key index))]
-      (cond
-        (= (count password) 8)
-          password
-        (starts-with-n-zeros? 5 hash)
-          (recur (str password (nth hash 5)) (inc index))
-        :else
-          (recur password (inc index))))))
+(defn- hashes
+  ([key]
+    (hashes key 0))
+  ([key n]
+    (lazy-seq (cons (md5 (str key n))
+              (hashes key (inc n))))))
+
+(defn part-one-password [key]
+  (->> (hashes key)
+       (filter starts-with-five-zeros?)
+       (take 8)
+       (map #(nth % 5))
+       (apply str)))

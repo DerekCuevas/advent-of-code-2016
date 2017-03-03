@@ -1,5 +1,5 @@
 (ns day-five.core
-  (:require [clojure.string :refer [starts-with?]]
+  (:require [clojure.string :refer [starts-with? includes?]]
             [digest :refer [md5]])
   (:gen-class))
 
@@ -30,7 +30,7 @@
       (assoc-str password position value))))
 
 (defn- add [password hash]
-  (if (not-any? #{\_} password)
+  (if-not (includes? password "_")
     (reduced password)
     (next-password password hash)))
 

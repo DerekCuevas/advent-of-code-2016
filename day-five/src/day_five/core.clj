@@ -3,11 +3,14 @@
             [digest :refer [md5]])
   (:gen-class))
 
+(defn- hash [key n]
+  (md5 (str key n)))
+
 (defn- hashes
   ([key]
-    (hashes key 0))
+   (hashes key 0))
   ([key n]
-    (lazy-seq (cons (md5 (str key n)) (hashes key (inc n))))))
+   (lazy-seq (cons (hash key n) (hashes key (inc n))))))
 
 (defn- starts-with-five-zeros? [s]
   (starts-with? s "00000"))

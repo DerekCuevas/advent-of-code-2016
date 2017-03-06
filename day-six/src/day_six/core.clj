@@ -4,15 +4,21 @@
 (defn- transpose [v]
   (apply mapv vector v))
 
-(defn- most-frequent [coll]
+(defn- most-frequent [selector coll]
   (->> coll
        (frequencies)
        (sort-by val)
-       (last)
+       (selector)
        (first)))
 
-(defn message [input]
+(defn- message [selector input]
   (->> input
        (transpose)
-       (map most-frequent)
+       (map (partial most-frequent selector))
        (apply str)))
+
+(def part-one-message
+  (partial message last))
+
+(def part-two-message
+  (partial message first))

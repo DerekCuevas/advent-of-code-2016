@@ -10,4 +10,5 @@
 
 (deftest message-test
   (testing "find message"
-    (is (= (message input) "xhnqpqql"))))
+    (is (= (part-one-message input) "xhnqpqql"))
+    (is (= (part-two-message input) "brhailro"))))

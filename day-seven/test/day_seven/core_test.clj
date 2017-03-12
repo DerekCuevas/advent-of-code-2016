@@ -28,6 +28,10 @@
       (split #"\n")
       (parse)))
 
-(deftest count-valid-ips-test
-  (testing "count valid ips"
-    (is (= (count-valid-ips input) 105))))
+(deftest tsl?-test
+  (testing "ips support tsl"
+    (is (= (count-supporting-tsl? input) 105))))
+
+(deftest ssl?-test
+  (testing "ips support ssl"
+    (is (= (count-supporting-ssl? input) 258))))

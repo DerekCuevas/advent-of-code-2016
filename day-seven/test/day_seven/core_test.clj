@@ -3,22 +3,22 @@
             [day-seven.core :refer :all]
             [clojure.string :refer [split]]))
 
-(def ip-format #"\[[^\]]*\]|(\b\w+\b)")
+(def ^:private ip-format #"\[[^\]]*\]|(\b\w+\b)")
 
-(defn- hypernet-seq [matches]
+(defn- hypernet-seqs [matches]
   (->> matches
       (map #(if-not (second %) (first %) false))
       (filter identity)))
 
-(defn- abba-seq [matches]
+(defn- supernet-seqs [matches]
   (->> matches
        (map second)
        (filter identity)))
 
 (defn- parse-ip [s]
   (let [matches (re-seq ip-format s)]
-    {:hypernet (hypernet-seq matches)
-     :abba (abba-seq matches)}))
+    {:hypernet-seqs (hypernet-seqs matches)
+     :supernet-seqs (supernet-seqs matches)}))
 
 (defn- parse [input]
   (map parse-ip input))

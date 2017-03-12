@@ -11,9 +11,12 @@
        (map mirror?)
        (some true?)))
 
-(defn- ip? [{:keys [hypernet abba]}]
-  (and (not-any? true? (map abba? hypernet))
-       (some true? (map abba? abba))))
+(defn- any-abba? [seqs]
+  (some true? (map abba? seqs)))
+
+(defn- ip? [{:keys [hypernet-seqs supernet-seqs]}]
+  (and (not (any-abba? hypernet-seqs))
+       (any-abba? supernet-seqs)))
 
 (defn count-valid-ips [input]
   (->> input

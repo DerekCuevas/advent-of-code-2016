@@ -18,10 +18,8 @@
   (and (some-abba? (:supernet-seqs ip))
        (not (some-abba? (:hypernet-seqs ip)))))
 
-(defn count-supporting-tsl? [ips]
-  (->> ips
-       (filter supports-tsl?)
-       (count)))
+(defn count-supporting-tsl [ips]
+  (count (filter supports-tsl? ips)))
 
 ;; part two
 
@@ -33,7 +31,5 @@
         babs (combine-palindromic-subseqs 3 (:hypernet-seqs ip))]
     (some (into #{} (map aba->bab abas)) babs)))
 
-(defn count-supporting-ssl? [ips]
-  (->> ips
-       (filter supports-ssl?)
-       (count)))
+(defn count-supporting-ssl [ips]
+  (count (filter supports-ssl? ips)))

@@ -11,6 +11,8 @@
 (defn- combine-palindromic-subseqs [n colls]
   (mapcat (partial palindromic-subseqs n) colls))
 
+;; part one
+
 (defn- some-abba? [colls]
   (not (empty? (combine-palindromic-subseqs 4 colls))))
 
